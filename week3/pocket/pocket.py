@@ -5,8 +5,9 @@ import pocket_plot as pl
 
 # read in the digits data from text file
 digits = pd.read_csv('digits_training_features.csv', header=None)
-#digits[[0]].astype(int) # pretty up our column that contains the classification(i.e the correct digit)
-digits.loc[:,:].astype(int)
+
+# digits[[0]].astype(int) # pretty up our column that contains the classification(i.e the correct digit)
+
 # we actually only want to do binary classification at this stage
 # so we'll take only the rows from digits that correspond to '1' or '5'
 classification_targets = digits[digits.loc[:, 0].isin([1, 5])].reset_index(drop=True)
