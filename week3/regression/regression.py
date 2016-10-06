@@ -10,26 +10,18 @@ df = pd.read_fwf('ABT.txt', colspecs='infer', widths=None, header=0,
                         'last_date','open_interest','ss_flag','div_convention','flag','ticker','best_bid','best_offer',
                         'volume','strike_price','cfadj','impl_volatility','delta','gamma','theta','vega'])
 
-# get the last 10000 rows of data
-abt_vol = df.tail(50000)
-
-# We have some problems with our data. First, we need to convert the dates to numbers,
-# which isn't too big a deal. Our larger problem though is the column that we are interested in
-# analyzing: 'impl_volatility; has missing values that show up as '.' in the column. This is a
-# nightmare, however it is a real life nightmare that you must know how to deal with. There is
-# a reason some people say ETL(Extract Transform Load) is at least half the battle.
-
-# convert dates
-abt_vol['date'] = abt_vol['date'].astype(float)
-
-abt_vol['impl_volatility'][abt_vol['impl_volatility'] == '.'] = None
-abt_vol['impl_volatility'] = abt_vol['impl_volatility'].astype(float)
+# get the last 500000 rows of data
+# convert_objects is performing a great service to us, it is replacing
+# nonsensical values with Nan, thereby allowing us to do the conversion to numeric
+# data even though some of our data is "spurious". This "spurious" data is a major
+# source of pain in data analysis. Extracting data and getting it into a usable from for
+# analysis is known as 'ETL'....Extract Transform Load
+abt_vol = df.tail(100000).convert_objects(convert_numeric=True)
 
 X = abt_vol[['date', 'impl_volatility']].as_matrix()
 
 # blow out any rows(note axis=1) that contain NaN values
 X = X[~np.isnan(X).any(axis=1)]
-print X
 
 # linear algebra with numpy
 A = np.vstack([X[:, 0], np.ones(len(X))]).T
@@ -38,3 +30,4 @@ m, c = np.linalg.lstsq(A, X[:, 1])[0]
 abt_vol.plot(kind='scatter', x='date', y='impl_volatility')
 plt.plot(X[:, 0], m*X[:, 0] + c, 'r', label='Fitted line')
 plt.show()
+
