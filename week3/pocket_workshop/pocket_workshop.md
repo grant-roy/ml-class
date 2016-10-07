@@ -59,9 +59,9 @@ classification_targets = digits[ "code goes here to index into column 0 and grab
 ```
 * We then need to create our scalar column and add it to *classification_targets*
 * Modify the perceptron to run for 250 iterations, as missclassified points no longer
-makes sense as a flag(there will always be missclassified points)
+makes sense as a flag(there will always be misclassified points)
 * Each iteration check the weight vector against *all rows of x*, see how many are missclassified; did our w do better
 than our last w? If so, keep this w in our pocket as the best so far.
-* Print out how many missclassified points in total there are on each iteration so you can monitor the algorithms progress
+* Print out how many misclassified points in total there are on each iteration so you can monitor the algorithms progress
 
 
