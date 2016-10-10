@@ -32,6 +32,7 @@ def show_results(results):
     c.set_title("picking the minimum #heads result from each trial")
 
     plt.tight_layout()
+    plt.show()
 
 def show_prob_bounds(N):
     if len(N) != 3:
@@ -92,3 +93,4 @@ def show_bounds_vs_experiment(results, epsilon, u, times_coin_tossed):
           str(float(len([fraction for fraction in v_min_vs_u if round(fraction, 1) > epsilon])) / len(results)))
 
     plt.tight_layout()
+    plt.show()
