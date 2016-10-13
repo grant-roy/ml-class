@@ -1,6 +1,11 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import sys
+
+sys.path.append('../utility')
+import scatter_plot as sc
+import perceptron as pt
 
 
 # our function to actually create the points on the x,y plane
@@ -35,21 +40,6 @@ blue_samples['classification'] = pd.Series([-1] * 2000, index=blue_samples.index
 
 all_samples = pd.concat([red_samples, blue_samples], axis=0).reset_index(drop=True)
 all_samples['scalar'] = pd.Series([1] * len(all_samples), index=all_samples.index)
-print all_samples.head()
-print all_samples.tail()
-#print pd.concat([red_samples, pd.Series([1] * 2000, name='scalar')], join='inner', axis=1)
 
-# next create a full dataset from semi-circles with 'y' values for classification
-# this will allow us to match the three columns our weight vector will have
-#all_samples = pd.concat((red_samples, blue_samples), axis=0)
-#print all_samples.reset_index(drop=True).tail()
-
-# scalar = pd.Series([1] * len(coin_data), name='scalar')
-#
-# # create our x vector with the added scalar column
-# x = pd.concat((scalar, coin_data.loc[:, ['size', 'mass']]), axis=1)
-#
-# # plot red and blue semicircles from sampled points
-# plt.scatter(red_samples['x'], red_samples['y'], c='r')
-# plt.scatter(blue_samples['x'], blue_samples['y'], c='b')
-# plt.show()
+w = pt.perceptron(all_samples)
+sc.scatter(all_samples, w)
