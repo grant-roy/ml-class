@@ -57,7 +57,7 @@ for decrement  in _
 '''
 how can we sample 2000 random points from each dataframe??
 
-* hint: use numpys random number facilities to help grap random points in the dataframe
+* hint: use numpys random number facilities to help grab random points in the dataframe
 '''
 red_samples = red. _
 blue_samples = blue. _
