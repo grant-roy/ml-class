@@ -30,4 +30,3 @@ m, c = np.linalg.lstsq(A, X[:, 1])[0]
 abt_vol.plot(kind='scatter', x='date', y='impl_volatility')
 plt.plot(X[:, 0], m*X[:, 0] + c, 'r', label='Fitted line')
 plt.show()
-
