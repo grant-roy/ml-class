@@ -14,11 +14,8 @@ def regression(data):
 
 
 def plot_regression(data,m,c):
-    # set_a = data[data['classification']==1]
-    # set_b = data[data['classification']==-1]
-    #
+
     plt.scatter(data['x'], data['y'], marker='+')
-    # plt.scatter(set_b['x'], set_b['y'], c='r', marker='o')
 
     X = data.as_matrix()
     plt.plot(X[:, 0], m*X[:, 0] + c, 'r', label='Fitted line')
