@@ -85,3 +85,10 @@ for index, row in x.iterrows():
 # read in the coin-data from an excel file
 coin_data = pd.read_excel('coin-data.xlsx', 'coin-data', header=0)
 ```
+
+---
+
+```python
+# take the dot product of a row of x and our weight vector w
+y_hat = np.dot(w, row.T, out=None)
+```
