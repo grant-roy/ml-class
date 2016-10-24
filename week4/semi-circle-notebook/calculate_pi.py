@@ -1,6 +1,5 @@
 import random
 import numpy as np
-from random import randint
 from matplotlib import pyplot as plt
 
 
