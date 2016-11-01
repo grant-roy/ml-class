@@ -4,7 +4,6 @@ import numpy as np
 import math
 
 
-
 def misclassified_count(w, data):
     scalar = pd.Series([1] * (len(data)+1), name='scalar')
     y = data['Classification']
@@ -34,10 +33,16 @@ def load_data(file_name='', y_name=''):
     return data
 
 
-def print_results(e_in, e_test, vc):
+def print_results(e_in=None, e_test=None, vc=None):
+    print "\n"
+    if e_in:
+        print "E_in number misclassified: " + str(e_in['misclassified']) + ", percentage error: " + str(e_in['ratio_misclassified'])
+    if e_test:
+        print "E_test number misclassified: " + str(e_test['misclassified']) + ", percentage error: " + str(e_test['ratio_misclassified'])
+    if vc:
+        print "VC bound: " + str(vc)
+    print "\n"
 
-    print "\n"
-    print "E_in number misclassified: " + str(e_in['misclassified']) + ", percentage error: " + str(e_in['ratio_misclassified'])
-    print "E_test number misclassified: " + str(e_test['misclassified']) + ", percentage error: " + str(e_test['ratio_misclassified'])
-    print "VC bound: " + str(vc)
-    print "\n"
+
+def determine_n(error=.01, tolerance=.01, d_vc=1, N=1):
+    return (8 / (error ** 2)) * math.log((4 * math.pow(2 * N, d_vc) + 4) / tolerance)
