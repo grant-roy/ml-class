@@ -20,10 +20,13 @@ def misclassified_count(w, data):
     return {'misclassified':misclassified, 'ratio_misclassified':misclassified/len(data)}
 
 
-def vc_bound(N=1, tolerance=.14, mH=1):
+def vc_bound(N=1, tolerance=.14, d_vc=1):
     return math.sqrt( (8/N) * math.log(
-                                (4 * math.pow(2 * N + 1, mH)  ) /tolerance ) )
+                                (4 * math.pow(2 * N + 1, d_vc)  ) /tolerance ) )
 
+
+def hoeffding_bound(N=1,M=1,tolerance=.01):
+    return math.sqrt( (1 / (2 * N)) * math.log((2 * M) / tolerance) )
 
 def load_data(file_name='', y_name=''):
     data = pd.read_csv(file_name, header=0)
@@ -33,7 +36,7 @@ def load_data(file_name='', y_name=''):
     return data
 
 
-def print_results(e_in=None, e_test=None, vc=None):
+def print_results(e_in=None, e_test=None, vc=None, hoeffding=None):
     print "\n"
     if e_in:
         print "E_in number misclassified: " + str(e_in['misclassified']) + ", percentage error: " + str(e_in['ratio_misclassified'])
@@ -41,6 +44,8 @@ def print_results(e_in=None, e_test=None, vc=None):
         print "E_test number misclassified: " + str(e_test['misclassified']) + ", percentage error: " + str(e_test['ratio_misclassified'])
     if vc:
         print "VC bound: " + str(vc)
+    if hoeffding:
+        print "Hoeffding bound: " + str(hoeffding)
     print "\n"
 
 
