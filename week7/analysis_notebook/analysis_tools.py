@@ -1,4 +1,5 @@
 from __future__ import division
+import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import math
@@ -21,23 +22,29 @@ def misclassified_count(w, data):
 
 
 def vc_bound(N=1, tolerance=.14, d_vc=1):
-    return math.sqrt( (8/N) * math.log(
-                                (4 * math.pow(2 * N + 1, d_vc)  ) /tolerance ) )
+    return math.sqrt( (8/N) * math.log( (4 * math.pow(2 * N, d_vc) + 1) /tolerance ) )
 
 
 def hoeffding_bound(N=1, M=1, tolerance=.01):
     return math.sqrt( (1 / (2 * N)) * math.log((2 * M) / tolerance) )
 
 def rademacher_bound(N=1, d_vc=1, tolerance=.01):
-    return math.sqrt( (2 * math.log(2 * N * math.pow(N,d_vc))) / N  ) +
-           math.sqrt( 2 / N * math.log(1 / tolerance) ) +
+    return math.sqrt( (2 * math.log(2 * N * math.pow(N,d_vc))) / N  ) + \
+           math.sqrt( 2 / N * math.log(1 / tolerance) ) + \
            (1 / N)
 
 def pvd_bound(N=1, d_vc=1, tolerance=.01, epsilon=.01):
-    return math.sqrt( (1 / N) * ( 2 * epsilon + math.log( 4 * math.pow(N**2,d_vc) / tolerance )))
+    try:
+        return math.sqrt( (1 / N) * ( 2 * epsilon + math.log( 4 * math.pow(N**2,d_vc) / tolerance )))
+    except OverflowError:
+        return float('inf')
 
-def devroye(N=1, d_vc=1, tolerance=.01, epsilon=.01):
-    return math.sqrt( 1 / 2 * N * (4*epsilon + 4*epsilon**2 + math.log((4 * math.pow(N**2,d_vc)) / tolerance ) ))
+
+def devroye_bound(N=1, d_vc=1, tolerance=.01, epsilon=.01):
+    try:
+        return math.sqrt( 1 / 2 * N * (4*epsilon + 4*epsilon**2 + math.log((4 * math.pow(N**2,d_vc)) / tolerance ) ))
+    except OverflowError:
+        return float('inf')
 
 def determine_n(error=.01, tolerance=.01, d_vc=1, N=1):
     return (8 / (error ** 2)) * math.log((4 * math.pow(2 * N, d_vc) + 4) / tolerance)
@@ -64,3 +71,20 @@ def print_results(e_in=None, e_test=None, vc=None, hoeffding=None):
 
 
 def compare_generalization_bounds(range_n=None, d_vc=1, tolerance=.01, epsilon=.01):
+    vc=[]
+    rb=[]
+    pv=[]
+    db=[]
+
+    for N in range_n:
+        vc.append(vc_bound(N=N, tolerance=.1, d_vc=d_vc))
+        rb.append(rademacher_bound(N=N, tolerance=.1, d_vc=d_vc))
+        pv.append(pvd_bound(N=N, tolerance=.1, d_vc=d_vc, epsilon=epsilon))
+        db.append(devroye_bound(N=N, tolerance=.1, d_vc=d_vc, epsilon=epsilon))
+
+
+    plt.plot(vc,c='r')
+    plt.plot(rb,c='g')
+    plt.plot(pv,c='y')
+    #plt.plot(db)
+    plt.show()

@@ -21,9 +21,9 @@ def misclassified_count(w, data):
     return {'misclassified':misclassified, 'ratio_misclassified':misclassified/len(data)}
 
 
-def vc_bound(N=1, tolerance=.14, mH=1):
+def vc_bound(N=1, tolerance=.14, d_vc=1):
     return math.sqrt( (8/N) * math.log(
-                                (4 * math.pow(2 * N + 1, mH)  ) /tolerance ) )
+                                (4 * math.pow(2 * N, d_vc) + 1) /tolerance ) )
 
 
 def load_data(file_name='', y_name=''):
